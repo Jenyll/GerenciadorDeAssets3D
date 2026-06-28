@@ -1,0 +1,1 @@
+# GerenciadorDeAssets3D

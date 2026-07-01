@@ -1,5 +1,3 @@
-namespace AssetManager.Api.Models;
-
 public enum ExportStatus
 {
     Pending = 1,

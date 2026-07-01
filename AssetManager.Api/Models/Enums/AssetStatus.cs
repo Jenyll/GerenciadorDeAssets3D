@@ -1,3 +1,5 @@
+namespace AssetManager.Api.Models.Enums;
+
 public enum AssetStatus
 {
                     Processing = 1,

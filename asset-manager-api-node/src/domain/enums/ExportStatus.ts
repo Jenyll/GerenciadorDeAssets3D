@@ -1,0 +1,6 @@
+export enum ExportStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  COMPLETED = "COMPLETED",
+  ERROR = "ERROR"
+}

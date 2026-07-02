@@ -11,8 +11,10 @@ export class CreateAssetUseCase {
     }
 
     const asset = await this.assetRepository.create({
-      ...data,
-      name: data.name.trim()
+      name: data.name.trim(),
+      description: data.description,
+      category: data.category,
+      tags: data.tags
     });
 
     return {

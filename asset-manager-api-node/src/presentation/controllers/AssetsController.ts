@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import fs from "fs";
+import path from "path";
 import { ListAssetsUseCase } from "../../application/use-cases/ListAssetsUseCase";
 import { GetAssetByIdUseCase } from "../../application/use-cases/GetAssetByIdUseCase";
 import { CreateAssetUseCase } from "../../application/use-cases/CreateAssetUseCase";
@@ -135,6 +137,37 @@ export class AssetsController {
     } catch (error) {
       return res.status(500).json({
         message: "Erro ao excluir asset.",
+        error: error instanceof Error ? error.message : "Erro desconhecido"
+      });
+    }
+  }
+
+  async downloadOriginalFile(req: Request, res: Response) {
+    try {
+      const id = req.params.id.toString();
+
+      const repository = new PrismaAssetRepository();
+      const asset = await repository.findById(id);
+
+      if (!asset) {
+        return res.status(404).json({
+          message: "Asset não encontrado."
+        });
+      }
+
+      if (!asset.filePath || !fs.existsSync(asset.filePath)) {
+        return res.status(404).json({
+          message: "Arquivo original não encontrado."
+        });
+      }
+
+      const absolutePath = path.resolve(asset.filePath);
+
+      return res.download(absolutePath, asset.originalFileName);
+
+    } catch (error) {
+      return res.status(500).json({
+        message: "Erro ao baixar arquivo original.",
         error: error instanceof Error ? error.message : "Erro desconhecido"
       });
     }

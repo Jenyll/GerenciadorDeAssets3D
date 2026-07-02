@@ -10,11 +10,19 @@ export class CreateAssetUseCase {
       throw new Error("O nome do asset é obrigatório.");
     }
 
+    if (!data.originalFileName || !data.storedFileName || !data.filePath) {
+      throw new Error("O arquivo GLB é obrigatório.");
+    }
+
     const asset = await this.assetRepository.create({
       name: data.name.trim(),
       description: data.description,
       category: data.category,
-      tags: data.tags
+      tags: data.tags,
+      originalFileName: data.originalFileName,
+      storedFileName: data.storedFileName,
+      filePath: data.filePath,
+      fileSize: data.fileSize
     });
 
     return {

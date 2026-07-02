@@ -3,4 +3,9 @@ export interface CreateAssetDTO {
   description?: string;
   category?: string;
   tags?: string;
+
+  originalFileName: string;
+  storedFileName: string;
+  filePath: string;
+  fileSize: number;
 }

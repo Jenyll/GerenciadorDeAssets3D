@@ -53,19 +53,24 @@ export class PrismaAssetRepository implements IAssetRepository {
         description: data.description ?? null,
         category: data.category ?? null,
         tags: data.tags ?? null,
-        originalFileName: "",
-        storedFileName: "",
-        filePath: "",
+
+        originalFileName: data.originalFileName,
+        storedFileName: data.storedFileName,
+        filePath: data.filePath,
         thumbnailPath: null,
-        fileSize: 0,
+
+        fileSize: data.fileSize,
+
         vertexCount: null,
         triangleCount: null,
         meshCount: null,
         materialCount: null,
         animationCount: null,
+
         width: null,
         height: null,
         depth: null,
+
         status: "AVAILABLE"
       }
     });
@@ -80,20 +85,26 @@ export class PrismaAssetRepository implements IAssetRepository {
       asset.description,
       asset.category,
       asset.tags,
+
       asset.originalFileName,
       asset.storedFileName,
       asset.filePath,
       asset.thumbnailPath,
+
       asset.fileSize,
+
       asset.vertexCount,
       asset.triangleCount,
       asset.meshCount,
       asset.materialCount,
       asset.animationCount,
+
       asset.width,
       asset.height,
       asset.depth,
+
       asset.status as AssetStatus,
+
       asset.createdAt,
       asset.updatedAt
     );

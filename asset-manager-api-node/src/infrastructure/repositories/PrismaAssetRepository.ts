@@ -2,6 +2,7 @@ import { Asset3D } from "../../domain/entities/Asset3D";
 import { AssetStatus } from "../../domain/enums/AssetStatus";
 import { IAssetRepository } from "../../application/repositories/IAssetRepository";
 import { CreateAssetDTO } from "../../application/dtos/CreateAssetDTO";
+import { UpdateAssetDTO } from "../../application/dtos/UpdateAssetDTO";
 import { prisma } from "../database/prismaClient";
 
 type PrismaAsset = {
@@ -46,6 +47,18 @@ export class PrismaAssetRepository implements IAssetRepository {
     return assets.map(asset => this.toDomain(asset));
   }
 
+  async findById(id: string): Promise<Asset3D | null> {
+    const asset = await prisma.asset3D.findUnique({
+      where: { id }
+    });
+
+    if (!asset) {
+      return null;
+    }
+
+    return this.toDomain(asset);
+  }
+
   async create(data: CreateAssetDTO): Promise<Asset3D> {
     const asset = await prisma.asset3D.create({
       data: {
@@ -76,6 +89,35 @@ export class PrismaAssetRepository implements IAssetRepository {
     });
 
     return this.toDomain(asset);
+  }
+
+  async update(id: string, data: UpdateAssetDTO): Promise<Asset3D | null> {
+    const existingAsset = await prisma.asset3D.findUnique({
+      where: { id }
+    });
+
+    if (!existingAsset) {
+      return null;
+    }
+
+    const asset = await prisma.asset3D.update({
+      where: { id },
+      data: {
+        name: data.name.trim(),
+        description: data.description ?? null,
+        category: data.category ?? null,
+        tags: data.tags ?? null,
+        status: data.status
+      }
+    });
+
+    return this.toDomain(asset);
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.asset3D.delete({
+      where: { id }
+    });
   }
 
   private toDomain(asset: PrismaAsset): Asset3D {

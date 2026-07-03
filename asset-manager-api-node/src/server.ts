@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
 import assetsRoutes from "./presentation/routes/assets.routes";
+import assetExportsRoutes from "./presentation/routes/assetExports.routes";
 import { swaggerSpec } from "./infrastructure/swagger/swaggerConfig";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use("/storage", express.static(path.resolve("storage")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/assets", assetsRoutes);
+app.use("/api/assets", assetExportsRoutes);
 
 app.get("/", (_req, res) => {
   res.json({

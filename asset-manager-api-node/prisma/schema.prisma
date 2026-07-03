@@ -7,43 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Asset3D {
-  id               String              @id @default(uuid())
-  name             String
-  description      String?
-  category         String?
-  tags             String?
-  originalFileName String
-  storedFileName   String
-  filePath         String
-  thumbnailPath    String?
-  fileSize         Int
-  vertexCount      Int?
-  triangleCount    Int?
-  meshCount        Int?
-  materialCount    Int?
-  animationCount   Int?
-  width            Float?
-  height           Float?
-  depth            Float?
-  status           AssetStatus         @default(PROCESSING)
-  createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
-  exportedFiles    ExportedAssetFile[]
-}
-
-model ExportedAssetFile {
-  id        String       @id @default(uuid())
-  assetId   String
-  format    String
-  fileName  String
-  filePath  String
-  fileSize  Int
-  status    ExportStatus @default(PENDING)
-  createdAt DateTime     @default(now())
-  asset     Asset3D      @relation(fields: [assetId], references: [id], onDelete: Cascade)
-}
-
 enum AssetStatus {
   PROCESSING
   AVAILABLE
@@ -56,4 +19,54 @@ enum ExportStatus {
   PROCESSING
   COMPLETED
   ERROR
+}
+
+model Asset3D {
+  id               String              @id @default(uuid())
+  name             String
+  description      String?
+  category         String?
+  tags             String?
+
+  originalFileName String
+  storedFileName   String
+  filePath         String
+  thumbnailPath    String?
+
+  fileSize         Int
+
+  vertexCount      Int?
+  triangleCount    Int?
+  meshCount        Int?
+  materialCount    Int?
+  animationCount   Int?
+
+  width            Float?
+  height           Float?
+  depth            Float?
+
+  status           AssetStatus         @default(PROCESSING)
+
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  exportedFiles    ExportedAssetFile[]
+}
+
+model ExportedAssetFile {
+  id          String       @id @default(uuid())
+
+  assetId     String
+  asset       Asset3D      @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  format      String
+  profile     String?
+  optionsJson String?
+
+  fileName    String
+  filePath    String
+  fileSize    Int
+
+  status      ExportStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
 }

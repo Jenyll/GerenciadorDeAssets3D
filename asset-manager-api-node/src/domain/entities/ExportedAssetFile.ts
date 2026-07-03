@@ -9,6 +9,8 @@ export class ExportedAssetFile {
     public filePath: string,
     public fileSize: number,
     public status: ExportStatus,
-    public readonly createdAt: Date
+    public readonly createdAt: Date,
+    public profile?: string | null,
+    public optionsJson?: string | null
   ) {}
 }

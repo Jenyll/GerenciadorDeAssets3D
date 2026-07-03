@@ -37,7 +37,10 @@ export class UpdateAssetUseCase {
       tags: asset.tags,
       status: asset.status,
       fileSize: asset.fileSize,
+      originalFileName: asset.originalFileName,
       thumbnailPath: asset.thumbnailPath,
+      fileUrl: `/${asset.filePath.replace(/\\/g, "/")}`,
+      downloadUrl: `/api/assets/${asset.id}/download`,
       createdAt: asset.createdAt,
       updatedAt: asset.updatedAt
     };

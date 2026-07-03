@@ -8,7 +8,10 @@ export interface AssetResponseDTO {
   tags: string | null;
   status: AssetStatus;
   fileSize: number;
+  originalFileName: string;
   thumbnailPath: string | null;
+  fileUrl: string;
+  downloadUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }
